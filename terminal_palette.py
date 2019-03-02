@@ -4,11 +4,12 @@ BRIGHT = '1'
 
 COLOR8 = ('BLACK', 'RED', 'GREEN', 'YELLOW', 'BLUE', 'MAGENTA', 'CYAN',
           'WHITE')
-LOWERCASED_COLOR8 = [color.lower for color in COLOR8]
+LOWERED_COLOR8 = [color.lower() for color in COLOR8]
+LOWERED_COLOR8.extend(('bright_' + color) for color in LOWERED_COLOR8[:])
+BG_LOWERED_COLOR8 = [('bg_' + color) for color in LOWERED_COLOR8[:]]
 
-
-def get_color_code(color, bright=None):
-    return ESCAPE + "[" + color + (";" + BRIGHT if bright else "") + "m"
+DECORATIONS = ('BOLD', 'UNDERLINE', 'REVERSED')
+LOWERED_DECORATIONS = [decor.lower() for decor in DECORATIONS]
 
 
 class BGColor:
@@ -21,7 +22,7 @@ class BGColor:
     CYAN = '46'
     WHITE = '47'
 
-    RGB = '38'
+    RGB = '48'
     DEFAULT = '49'
 
 
@@ -39,45 +40,89 @@ class FGColor:
     DEFAULT = '39'
 
 
-class Color:
-    bg = BGColor
-    fg = FGColor
-
-
 class Decoration:
     BOLD = '1'
     UNDERLINE = '4'
     REVERSED = '7'
 
 
-class BGPalette:
-    pass
-
-
-class FGPalette:
-    pass
-
-
-class Palette:
-    fg = FGPalette
-    bg = BGPalette
+def get_color_code(color, bright=False, rgb=None):
+    return ESCAPE + "[" + color + (";" + BRIGHT if bright else "") + (
+        (";2;" + ";".join(map(str, rgb))) if rgb else "") + "m"
 
 
 def set_color(color, bright):
-    @staticmethod
     def wrap_with_term_color(content):
         return get_color_code(color, bright) + content + get_color_code(RESET)
 
     return wrap_with_term_color
 
 
-bg = BGColor()
-fg = FGColor()
+class Palette:
+    _bg_style = None
+    _fg_style = None
+    _decor_style = None
 
-for color in COLOR8:
-    lower_name = color.lower()
-    for bright in (True, False):
-        setattr(BGPalette, lower_name,
-                set_color(BGColor.__getattribute__(bg, color), bright))
-        setattr(FGPalette, lower_name,
-                set_color(FGColor.__getattribute__(fg, color), bright))
+    def __call__(self, message):
+        final_style = ''
+
+        for style in (self._bg_style, self._fg_style, self._decor_style):
+            if style is not None:
+                final_style += style
+
+        if final_style == '':
+            return message
+
+        return final_style + message + get_color_code(RESET)
+
+    def __getattr__(self, key):
+        if key in LOWERED_COLOR8:
+            self._fg_style = get_color_code(
+                FGColor.__getattribute__(FGColor,
+                                         key.split('_')[-1].upper()),
+                'bright' in key)
+
+            return self
+
+        if key in BG_LOWERED_COLOR8:
+            self._bg_style = get_color_code(
+                BGColor.__getattribute__(BGColor,
+                                         key.split('_')[-1].upper()),
+                'bright' in key)
+
+            return self
+
+        if key in LOWERED_DECORATIONS:
+            self._decor_style = get_color_code(
+                Decoration.__getattribute__(Decoration,
+                                            key.split('_')[-1].upper()))
+
+            return self
+
+        raise AttributeError
+
+    def rgb(self, r, g, b):
+        self._fg_style = get_color_code(FGColor.RGB, rgb=(r, g, b))
+        return self
+
+    def bg_rgb(self, r, g, b):
+        self._bg_style = get_color_code(BGColor.RGB, rgb=(r, g, b))
+        return self
+
+    @property
+    def default(self):
+        self._fg_style = get_color_code(FGColor.DEFAULT)
+        return self
+
+    @property
+    def bg_default(self):
+        self._bg_style = get_color_code(BGColor.DEFAULT)
+        return self
+
+    @property
+    def reset(self):
+        self._bg_style = None
+        self._fg_style = None
+        self._decor_style = None
+
+        return self
