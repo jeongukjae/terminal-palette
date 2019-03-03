@@ -1,3 +1,5 @@
+__version__ = '0.0.2'
+
 ESCAPE = '\x1b'
 RESET = '0'
 BRIGHT = '1'
