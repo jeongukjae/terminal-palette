@@ -6,6 +6,53 @@ A simple library to color texts in terminal. (using ANSI color codes)
 
 ## Quick Start
 
+Usage:
+
+```python
+from terminal_palette import Palette
+
+p = Palette()
+p.{keyword}.{keyword} ... ('some text')
+```
+
+available keyword:
+
+- `black`
+- `blue`
+- `cyan`
+- `green`
+- `magenta`
+- `red`
+- `white`
+- `yellow`
+- `bright_black`
+- `bright_blue`
+- `bright_cyan`
+- `bright_green`
+- `bright_magenta`
+- `bright_red`
+- `bright_white`
+- `bright_yellow`
+- `bg_black`
+- `bg_blue`
+- `bg_cyan`
+- `bg_green`
+- `bg_magenta`
+- `bg_red`
+- `bg_white`
+- `bg_yellow`
+- `bg_bright_black`
+- `bg_bright_blue`
+- `bg_bright_cyan`
+- `bg_bright_green`
+- `bg_bright_magenta`
+- `bg_bright_red`
+- `bg_bright_white`
+- `bg_bright_yellow`
+- `bold`
+- `reversed`
+- `underline`
+
 ### 8 Colors (Foreground)
 
 ```python
