@@ -1,7 +1,7 @@
 from codecs import open
 from setuptools import setup, find_packages
 
-with open('terminal_palette.py', encoding='utf-8') as f:
+with open('terminal_palette/__init__.py', encoding='utf-8') as f:
     for line in f.readlines():
         if '__version__' in line:
             version = line.split("'")[1]
@@ -14,6 +14,7 @@ setup(
     author='Jeong Ukjae',
     author_email='jeongukjae@gmail.com',
     license='MIT',
+    packages=['terminal_palette'],
     classifiers=[
         "Development Status :: 3 - Alpha", "Environment :: Console",
         "Intended Audience :: Developers",
