@@ -61,9 +61,9 @@ def set_color(color, bright):
 
 
 class Palette:
-    _bg_style = None
-    _fg_style = None
-    _decor_style = None
+    def __init__(self):
+        self._bg_style = self._fg_style = self._decor_style = None
+        self.bg_black = self.bg_blue = self.bg_bright_black = self.bg_bright_blue = self.bg_bright_cyan = self.bg_bright_green = self.bg_bright_magenta = self.bg_bright_red = self.bg_bright_white = self.bg_bright_yellow = self.bg_cyan = self.bg_green = self.bg_magenta = self.bg_red = self.bg_white = self.bg_yellow = self.black = self.blue = self.bold = self.bright_black = self.bright_blue = self.bright_cyan = self.bright_green = self.bright_magenta = self.bright_red = self.bright_white = self.bright_yellow = self.cyan = self.green = self.magenta = self.red = self.reversed = self.underline = self.white = self.yellow = self
 
     def __call__(self, message):
         final_style = ''
@@ -77,7 +77,7 @@ class Palette:
 
         return final_style + message + get_color_code(RESET)
 
-    def __getattr__(self, key):
+    def __getattribute__(self, key):
         if key in LOWERED_COLOR8:
             self._fg_style = get_color_code(
                 FGColor.__getattribute__(FGColor,
@@ -101,7 +101,7 @@ class Palette:
 
             return self
 
-        raise AttributeError
+        return super().__getattribute__(key)
 
     def rgb(self, r, g, b):
         self._fg_style = get_color_code(FGColor.RGB, rgb=(r, g, b))
