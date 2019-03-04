@@ -15,7 +15,7 @@ setup(
     author_email='jeongukjae@gmail.com',
     license='MIT',
     classifiers=[
-        "Development Status :: 3 - Beta", "Environment :: Console",
+        "Development Status :: 3 - Alpha", "Environment :: Console",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3 :: Only",
