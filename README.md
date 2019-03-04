@@ -4,6 +4,12 @@
 
 A simple library to color texts in terminal. (using ANSI color codes)
 
+## How to install
+
+```bash
+$ pip install terminal-palette
+```
+
 ## Quick Start
 
 Usage:
