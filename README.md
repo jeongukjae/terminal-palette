@@ -90,10 +90,10 @@ print(palette.reversed('Hello, World!'))
 ### Nested Style
 
 ```python
-from terminal_palette import Palette as P
+from terminal_palette import Palette
 
-palette1 = P()
-palette2 = P()
+palette1 = Palette()
+palette2 = Palette()
 
 print(palette1.red('RED!!' + palette2.blue('BLUE!!') + 'RED AGAIN!!'))
 ```
