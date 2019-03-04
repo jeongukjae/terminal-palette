@@ -1,4 +1,4 @@
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 
 ESCAPE = '\x1b'
 RESET = '0'
@@ -53,13 +53,6 @@ def get_color_code(color, bright=False, rgb=None):
         (";2;" + ";".join(map(str, rgb))) if rgb else "") + "m"
 
 
-def set_color(color, bright):
-    def wrap_with_term_color(content):
-        return get_color_code(color, bright) + content + get_color_code(RESET)
-
-    return wrap_with_term_color
-
-
 class Palette:
     def __init__(self):
         self._bg_style = self._fg_style = self._decor_style = None
@@ -75,6 +68,8 @@ class Palette:
         if final_style == '':
             return message
 
+        if '\x1b[0m' in message:
+            message = message.replace('\x1b[0m', '\x1b[0m' + final_style)
         return final_style + message + get_color_code(RESET)
 
     def __getattribute__(self, key):
