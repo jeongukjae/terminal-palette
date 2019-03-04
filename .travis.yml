@@ -11,3 +11,12 @@ script:
   - pytest --cov=terminal_palette
 after_success:
   - codecov
+before_deploy:
+  - git stash --all
+deploy:
+  provider: pypi
+  user: JeongUkJae
+  password:
+    secure: "XmlEzvZd6EV1dZTi2CP1vG4csPXDV4A/3xqEjZVqSJqhxwwUojPjlAZ5z8vIhe5HwVzY+VZ1JfUcqP9WxNqSuOr8LgjiSZrGNVV9YaXhM+4Dkk26NESXf9uIc5EqzabRuSvcjHB4sKV1c5HTkG8AIPQKcN80zgdNJC+uJRa8V4mJRG+bJaZlpRww5XsFk/LNBclL2Zh79ZUFMHhMT/rlidnBniBqanG+IHTFrAf0Soe1Fh0v0YO256sH8lOc5Ze+6vj555lGoW0PgckImCvhlF5UxjUU85hFbw2xJMFTWatmdYlmrZXrS/Ltoq/a0a+wUB5gMY/QndUpcNweUVYyOMcZWaDcpvPrDVs++AqOE7UkgWFhbPpKI9xt9hhBaWDAB3o4CQWzT4o+v3/B/hIOsAtSdxH+rm9S1/QoK0Ax2LB5LhTLJrRQbaDo6u5fBJKJQ7d0+Nd4jGVHLxcvd7O8Z4vRf4rnNlI4eJqVVxRnSzbZeyU2FGS+Hy4NdZBk2v6uKe+5OygzjHZeY5rxZ/KTTUes6VEx327phdoz3H7hMNlr2cqcS17RPhz2ihSL/+PVoWJNaUxD9QSmX2rLoucREumEZgA36BfDP81TaIPxsTIgRQHVABT93JAsvs28tNO4PE9pOHb7b1nKXSDAWQphQhDUYtQd8lhkFRGPCJCqYc4="
+  on:
+    tags: true
