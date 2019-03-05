@@ -18,7 +18,8 @@ Usage:
 from terminal_palette import Palette
 
 p = Palette()
-p.{keyword}.{keyword} ... ('some text')
+# p.{keyword}.{keyword} ... ('some text')
+p.underline.red.bg_white('some text')
 ```
 
 available keyword:
